@@ -1,0 +1,60 @@
+﻿@model Student
+@{
+    ViewData["Title"] = "GetById";
+}
+<body class="bg-light">
+    <div id="layoutAuthentication">
+        <div id="layoutAuthentication_content">
+            <main>
+                <div class="container">
+                    <div class="row justify-content-center">
+                        <div class="col-lg-7">
+                            <div class="card shadow-lg border-0 rounded-lg mt-5">
+                                <div class="card-header">
+                                    <h3 class="text-center font-weight-light my-4">Student Details</h3>
+                                </div>
+                                <div class="card-body">
+                                    <dl class="row mb-0">
+                                        <dt class="col-sm-3 text-muted">
+                                            Name
+                                        </dt>
+                                        <dd class="col-sm-9">
+                                            @Model.Name
+                                        </dd>
+                                        <dt class="col-sm-3 text-muted">
+                                            Age
+                                        </dt>
+                                        <dd class="col-sm-9">
+                                            @Model.Age
+                                        </dd>
+                                        <dt class="col-sm-3 text-muted">
+                                            Department
+                                        </dt>
+                                        <dd class="col-sm-9">
+                                            @Model.Department.Name
+                                        </dd>
+                                        <dt class="col-sm-3 text-muted">
+                                            Manger Name
+                                        </dt>
+                                        <dd class="col-sm-9">
+                                            @Model.Department.MgrName
+                                        </dd>
+                                    </dl>
+                                    <div class="mt-4">
+                                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning me-2">Edit</a>
+                                        <a class="btn btn-danger" asp-action="Delete" asp-controller="Student" asp-route-id="@Model.Id">Delete</a>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <a class="btn btn-secondary mt-3" asp-action="GetAll">Back to List</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/js/scripts.js"></script>
+</body>

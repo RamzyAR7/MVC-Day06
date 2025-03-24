@@ -1,0 +1,89 @@
+﻿@model StudentListViewModel
+
+@{
+    ViewData["Title"] = "GetAll";
+}
+
+<div class="container-fluid px-4">
+    <h1 class="mt-4">All Students</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Students Details
+        </div>
+        <div class="card-body">
+            <form method="get" asp-action="GetAll" class="form-inline mb-4">
+                <div class="form-group mr-2">
+                    <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Search by name" />
+                </div>
+                <br />
+                <div class="form-group mr-2">
+                    <select asp-for="DepartmentId" asp-items="ViewBag.DeptList" class="form-control">
+                        <option value=""> --- All Departments ---</option>
+                    </select>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <table id="datatablesSimple" class="display">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Department</th>
+                        <th>Manager Name</th>
+                        <th>Course</th>
+                        <th>Grade</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Department</th>
+                        <th>Manager Name</th>
+                        <th>Course</th>
+                        <th>Grade</th>
+                        <th>Actions</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var student in Model.Students)
+                    {
+                        if (student.StuCrsRes != null)
+                        {
+                            @foreach (var scr in student.StuCrsRes)
+                            {
+                                <tr>
+                                    <td>@student.Name</td>
+                                    <td>@student.Age</td>
+                                    <td>@student.Department.Name</td>
+                                    <td>@student.Department.MgrName</td>
+                                    <td>@scr.Course.Name</td>
+                                    <td>@scr.Grade</td>
+                                    <td>
+                                        <a asp-action="GetById" asp-route-id="@student.Id" class="btn btn-info">Details</a>
+                                        <a asp-action="Edit" asp-route-id="@student.Id" class="btn btn-warning">Edit</a>
+                                        <a asp-action="Delete" asp-route-id="@student.Id" class="btn btn-danger">Delete</a>
+                                        <a asp-action="GetStudentCourseDetails" asp-route-studentId="@student.Id" asp-route-courseId="@scr.CourseId" class="btn btn-primary">Course Details</a>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script>
+        const datatablesSimple = document.getElementById('datatablesSimple');
+        if (datatablesSimple) {
+            new simpleDatatables.DataTable(datatablesSimple);
+        }
+    </script>
+}

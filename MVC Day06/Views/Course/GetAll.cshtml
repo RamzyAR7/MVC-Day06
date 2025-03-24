@@ -1,0 +1,76 @@
+﻿@model MVC_Day06.ViewModel.CourseListViewModel
+@{
+    ViewData["Title"] = "GetAll";
+}
+<div class="container-fluid px-4">
+    <h1 class="mt-4">All Courses</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            Courses Details
+        </div>
+        <div class="card-body">
+            <form method="get" asp-action="GetAll" class="form-inline mb-4">
+                <div class="form-group mr-2">
+                    <input type="text" name="searchString" value="@Model.SearchString" class="form-control" placeholder="Search by name" />
+                </div>
+                <br />
+                <div class="form-group mr-2">
+                    <select asp-for="DepartmentId" asp-items="ViewBag.DeptList" class="form-control">
+                        <option value=""> --- All Departments ---</option>
+                    </select>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <table id="datatablesSimple" class="display">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Degree</th>
+                        <th>Minimum Degree</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tfoot>
+                    <tr>
+                        <th>Name</th>
+                        <th>Degree</th>
+                        <th>Minimum Degree</th>
+                        <th>Department</th>
+                        <th>Actions</th>
+                    </tr>
+                </tfoot>
+                <tbody>
+                    @foreach (var course in Model.Courses)
+                    {
+                        <tr>
+                            <td>@course.Name</td>
+                            <td>@course.Degree</td>
+                            <td>@course.MinDegree</td>
+                            <td>@course.Department.Name</td>
+                            <td>
+                                <a asp-action="GetById" asp-route-id="@course.Id" asp-controller="Course" class="btn btn-info">Details</a>
+                                <a asp-action="Edit" asp-route-id="@course.Id" asp-controller="Course" class="btn btn-warning">Edit</a>
+                                <a asp-action="Delete" asp-route-id="@course.Id" asp-controller="Course" class="btn btn-danger">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@7.1.2/dist/umd/simple-datatables.min.js" crossorigin="anonymous"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const datatablesSimple = document.getElementById('datatablesSimple');
+            if (datatablesSimple) {
+                new simpleDatatables.DataTable(datatablesSimple);
+            }
+        });
+    </script>
+}
